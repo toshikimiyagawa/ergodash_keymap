@@ -16,6 +16,22 @@ enum custom_keycodes {
   CAPS,
   ADJUST,
   LOWERCAPS,
+  CTRL,
+};
+
+// Tap danceの設定
+enum {
+  SINGLE_TAP = 1,
+  SINGLE_HOLD = 2,
+  DOUBLE_TAP = 3,
+};
+
+enum {
+  COLN,
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [COLN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN)
 };
 
 #define EISU LALT(KC_GRV)
@@ -37,10 +53,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
   [_QWERTY] = LAYOUT( 
  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
- KC_ESC, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_DEL, KC_ESC, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINS, \
- KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G, KC_BSPC, KC_TAB, KC_H, KC_J, KC_K, KC_L, KC_COLN, KC_QUOT, \
- KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, TO(_LOWER) , TO(_RAISE) , KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_BSPC, \
- KC_LGUI, KC_DEL, KC_LALT, KC_LALT ,CTL_T(KC_F13), LT(_LOWER,KC_SPC), KC_SPC, KC_ENT,LT(_RAISE, KC_ENT),SFT_T(KC_F14), KC_LALT, KC_GRV, KC_BSLS, KC_DEL \
+ KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, KC_LCBR , KC_RCBR, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_MINS, \
+ KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G, KC_LBRC, KC_RBRC, KC_H, KC_J, KC_K, KC_L, TD(COLN), KC_QUOT, \
+ KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B, TO(_LOWER) , TO(_RAISE) , KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_EQL, \
+ KC_LCTL, KC_LGUI, KC_LALT,  KC_LALT, CTL_T(KC_F13),LT(_LOWER,KC_SPC),  KC_SPC, KC_ENT,LT(_RAISE,KC_ENT), SFT_T(KC_F14), KC_LALT, KC_GRV, KC_BSLS, KC_DEL \
   ),
 
   /* Lower
@@ -57,11 +73,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * ,----------------------------------------------------------------------------------------------------------------------. 
    */
   [_LOWER] = LAYOUT(
-     XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                        XXXXXXX , XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, \
-    _______, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, XXXXXXX,                        XXXXXXX, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, \
-    _______,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    XXXXXXX ,                        XXXXXXX, KC_6,   KC_7,   KC_8,   KC_9,   KC_0,    KC_DQT,   \
-    _______,   KC_BSLS, KC_PLUS, KC_EQL,   KC_LCBR, KC_RCBR, TO(_LOWER) ,TO(_RAISE) , KC_LBRC,   KC_RBRC,   KC_LT,   KC_GT,   KC_QUES,  _______, \
-    _______, _______, _______,     _______,_______,LOWER,  TO(_QWERTY),           TO(_QWERTY), RAISE,_______, _______, KC_TILD, KC_PIPE, _______    \
+    XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                        XXXXXXX , XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, \
+  	XXXXXXX, XXXXXXX,XXXXXXX, LSFT(KC_UP),  XXXXXXX, XXXXXXX, XXXXXXX,                       XXXXXXX,  XXXXXXX, LCTL(KC_LEFT), KC_UP, LCTL(KC_RIGHT), XXXXXXX, XXXXXXX,\
+    XXXXXXX, XXXXXXX, LSFT(KC_LEFT), LSFT(KC_DOWN), LSFT(KC_RIGHT), KC_ESC, XXXXXXX, XXXXXXX, KC_BSPC, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX,\
+    _______, LGUI(KC_S),XXXXXXX, KC_DEL, XXXXXXX, XXXXXXX,    XXXXXXX ,                        XXXXXXX, KC_TAB, KC_ENT, KC_HOME, KC_END,XXXXXXX,XXXXXXX,  \
+   _______, _______, _______,     _______,_______,LOWER,  _______,           TO(_QWERTY), RAISE,_______, _______, _______, _______,   _______  \
   ),
 
   /* Raise
@@ -78,19 +94,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * ,----------------------------------------------------------------------------------------------------------------------.
    */
   [_RAISE] = LAYOUT(
-   XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                        XXXXXXX , XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, \
- 	  _______, XXXXXXX  ,XXXXXXX, KC_MS_UP, XXXXXXX,XXXXXXX, _______,                        _______,  XXXXXXX, XXXXXXX, KC_UP, XXXXXXX,   XXXXXXX,XXXXXXX,\
-    _______,LCTL(LSFT(KC_TAB)), KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT , LCTL(KC_TAB) ,_______,                        _______,  KC_HOME, KC_LEFT, KC_DOWN,   KC_RGHT, KC_END, KC_PGUP,\
-    _______,  KC_MS_BTN4,    KC_MS_BTN1,    KC_MS_BTN3,    KC_MS_BTN2,    KC_MS_BTN5,_______,                     _______,  LALT(KC_LEFT), LCTL(KC_LEFT), XXXXXXX, LCTL(KC_RGHT),   LALT(KC_RGHT),KC_PGDN, \
-   _______, _______, _______,     _______,_______,LOWER,  TO(_QWERTY),           TO(_QWERTY), RAISE,_______, _______, _______, _______,   _______  \
+     XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                        XXXXXXX , XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, \
+    KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, TO(_QWERTY),                        XXXXXXX, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, \
+    _______,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    XXXXXXX ,                        XXXXXXX, KC_6,   KC_7,   KC_8,   KC_9,   KC_0,    KC_DQT,   \
+    _______,   KC_LCBR, KC_RCBR, KC_LBRC,   KC_RBRC, KC_SCLN, TO(_LOWER) ,TO(_RAISE) , KC_PIPE,   KC_BSLS,   KC_LT,   KC_GT,   KC_QUES,  KC_PLUS, \
+    _______, _______, _______,     _______,_______,LOWER,  _______,           TO(_QWERTY), RAISE,_______, _______, KC_TILD, KC_PIPE, _______    \
   ),
 
 
   [_CAPS] = LAYOUT(
-    XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                        XXXXXXX , XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, \
-  	XXXXXXX, LCTL(KC_Q),LCTL(KC_W),    KC_END,  LCTL(KC_R), LCTL(KC_T), _______,                       _______,  LCTL(KC_Y), LCTL(KC_U), KC_TAB, LCTL(KC_O), KC_UP,XXXXXXX,\
-    XXXXXXX, KC_HOME, LCTL(KC_S),    KC_DEL,    KC_RGHT,   KC_ESC,    _______,                        _______, KC_BSPC, LCTL(KC_J), LCTL(KC_K),   LCTL(KC_L), LALT(KC_RGHT) , XXXXXXX,\
-    XXXXXXX, LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V),    KC_LEFT,    XXXXXXX ,                        XXXXXXX, KC_DOWN, KC_ENT, XXXXXXX, XXXXXXX,XXXXXXX,XXXXXXX,  \
+   XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                        XXXXXXX , XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, \
+ 	  _______, XXXXXXX  ,XXXXXXX, KC_MS_UP, XXXXXXX,XXXXXXX, _______,                        TO(_QWERTY),  XXXXXXX, XXXXXXX, KC_UP, XXXXXXX,   XXXXXXX,XXXXXXX,\
+    _______,LCTL(LSFT(KC_TAB)), KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT , LCTL(KC_TAB) ,_______,                        _______,  LCTL(KC_LEFT), KC_LEFT, KC_DOWN,   KC_RGHT, LCTL(KC_RGHT), KC_PGUP,\
+    _______,  KC_MS_BTN4,    KC_MS_BTN1,    KC_MS_BTN3,    KC_MS_BTN2,    KC_MS_BTN5,_______,                     _______,  LALT(KC_LEFT), KC_HOME, XXXXXXX, KC_END,   LALT(KC_RGHT),KC_PGDN, \
   	XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX  ,XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX  \
   ),
 
@@ -135,7 +151,16 @@ void persistent_default_layer_set(uint16_t default_layer) {
   default_layer_set(default_layer);
 }
 
+// static bool ctrl_pressed = false;
+// static uint16_t ctrl_pressed_time = 0;
+// static bool raise_pressed = false;
+// static uint16_t raise_pressed_time = 0;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  #ifdef CONSOLE_ENABLE
+    uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
+    uprintf("ctrl %d\n", ctrl_pressed);
+  #endif 
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
@@ -148,11 +173,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         layer_on(_LOWER);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
-        update_tri_layer(_LOWER, _CAPS, _LOWERCAPS);
+        // update_tri_layer(_LOWER, _CAPS, _LOWERCAPS);
       } else {
         layer_off(_LOWER);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
-        update_tri_layer(_LOWER, _CAPS, _LOWERCAPS);
+        // update_tri_layer(_LOWER, _CAPS, _LOWERCAPS);
       }
       return false;
       break;
@@ -164,6 +189,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
+      // if (record->event.pressed) {
+      //   raise_pressed = true;
+      //   raise_pressed_time = record->event.time;
+      //   if (ctrl_pressed) {
+      //     layer_on(_ADJUST);
+      //   } else {
+      //     layer_on(_RAISE);
+      //   }
+      // } else {
+      //   layer_off(_RAISE);
+      //   layer_off(_ADJUST);
+      //   if (ctrl_pressed) {
+      //     register_code(KC_LCTL);
+      //   }
+      //   if (raise_pressed && (TIMER_DIFF_16(record->event.time, raise_pressed_time) < TAPPING_TERM)) {
+      //     register_code(KC_ENT);
+      //     unregister_code(KC_ENT);
+      //   }
+      //   raise_pressed = false;
+      // }
       return false;
       break;
     case CAPS:
@@ -192,6 +237,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    // case CTRL:
+    //   if (record->event.pressed) {
+    //     ctrl_pressed = true;
+    //     ctrl_pressed_time = record->event.time;
+    //     if (raise_pressed) {
+    //       layer_on(_ADJUST);
+    //     } else {
+    //       register_code(KC_LCTL);
+    //     }
+    //   } else {
+    //     layer_off(_ADJUST);
+    //     unregister_code(KC_LCTL);
+    //     if (raise_pressed) {
+    //       layer_on(_RAISE);
+    //     }
+    //     if (ctrl_pressed && (TIMER_DIFF_16(record->event.time, ctrl_pressed_time) < TAPPING_TERM)) {
+    //       register_code(KC_SPC);
+    //       unregister_code(KC_SPC);
+    //     }
+    //     ctrl_pressed = false;
+    //   }
+    //   return false;
+    //   break;
   }
   return true;
+}
+
+void keyboard_post_init_user(void) {
+  #ifdef CONSOLE_ENABLE
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  // debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+  #endif 
 }
