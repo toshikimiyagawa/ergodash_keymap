@@ -6,6 +6,7 @@ extern keymap_config_t keymap_config;
 #define _LOWER 1
 #define _RAISE 2
 #define _CAPS 3
+#define _FN 4
 #define _ADJUST 16
 #define _LOWERCAPS 17
 
@@ -16,7 +17,12 @@ enum custom_keycodes {
   CAPS,
   ADJUST,
   LOWERCAPS,
-  CTRL,
+  KVM_NXT,
+  KVM_PRV,
+  KVM_1,
+  KVM_2,
+  KVM_3,
+  KVM_4,
 };
 
 // Tap danceの設定
@@ -42,11 +48,23 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define WIN_V LGUI(KC_V)
 #define L_DESC LGUI(LCTL(KC_LEFT))
 #define R_DESC LGUI(LCTL(KC_RGHT))
+#define P_TOYS LGUI(LALT(KC_SPC))
 #define M_TASK LGUI(KC_TAB)
 #define LO_SPC LT(_LOWER, KC_SPC)
 #define RA_ENT LT(_RAISE, KC_ENT)
 #define LO_F13 LT(_LOWER, KC_F13)
 #define RA_F14 LT(_RAISE, KC_F14)
+#define CTL_F13 CTL_T(KC_F13)
+#define SFT_F14 SFT_T(KC_F14)
+#define M_LOWER MO(_LOWER)
+#define M_RAISE MO(_RAISE)
+#define M_CAPS MO(_CAPS)
+#define TD_CTL TD(TD_FN_CTL)
+#define TD_SFT TD(TD_FN_SFT)
+#define ALT_TAB ALT_T(KC_TAB)
+#define SFT_TAB LSFT(KC_TAB)
+#define M_FN MO(_FN)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -67,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_TAB,           KC_RBRC, KC_Y,   KC_U,    KC_I,    KC_O,           KC_P,       KC_MINS, \
     KC_SCLN, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_F13,           KC_F14,  KC_H,   KC_J,    KC_K,    KC_L,           KC_SCLN,    KC_QUOT, \
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   XXXXXXX,          XXXXXXX, KC_N,   KC_M,    KC_COMM, KC_DOT,         KC_SLSH,    KC_EQL, \
+    ALT_TAB, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   XXXXXXX,          XXXXXXX, KC_N,   KC_M,    KC_COMM, KC_DOT,         KC_SLSH,    KC_EQL, \
     KC_LCTL, KC_LGUI, KC_LALT, KC_LCTL, LOWER,   KC_SPC, XXXXXXX,          XXXXXXX, KC_ENT,  RAISE,  KC_LSFT, TO(_LOWERCAPS), TO(_LOWER), TO(_QWERTY) \
   ),
 
